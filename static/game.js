@@ -590,7 +590,18 @@ canvas.addEventListener("mousemove", (e) => {
 
 // --- Keyboard controls (arrow keys + A/D) ---
 const keysPressed = {};
+// e.code is the physical key, not the typed character: on a Russian layout
+// the A/D keys are the letters Ф/В. While the player is typing a name we must
+// not preventDefault() those keystrokes, or part of the name never appears.
+function isTypingInField(target) {
+    return !!target && (
+        target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        target.isContentEditable
+    );
+}
 window.addEventListener("keydown", (e) => {
+    if (isTypingInField(e.target)) return;
     if (['ArrowLeft', 'ArrowRight', 'KeyA', 'KeyD'].includes(e.code)) {
         e.preventDefault();
         keysPressed[e.code] = true;
@@ -598,6 +609,10 @@ window.addEventListener("keydown", (e) => {
 });
 window.addEventListener("keyup", (e) => {
     keysPressed[e.code] = false;
+});
+// keyup never fires if the key is released outside the window — clear stuck keys
+window.addEventListener("blur", () => {
+    for (const code in keysPressed) keysPressed[code] = false;
 });
 
 // --- Game loop with Delta Time ---
