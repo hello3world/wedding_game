@@ -4,6 +4,10 @@
 
 ![Stack](https://img.shields.io/badge/stack-FastAPI%20%2B%20Canvas%20%2B%20WebSocket-cc0000?style=for-the-badge)
 
+<p align="center">
+  <img src="game_intro.gif" alt="Геймплей игры «Свадебный переполох»" width="480" />
+</p>
+
 ---
 
 ## 📖 Описание
